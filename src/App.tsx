@@ -2,7 +2,7 @@
 import { Global } from '@emotion/react'
 import { globalStyles } from './styles'
 import { Fragment } from 'react'
-import SlotMachine from './SlotMachine'
+import { SlotMachine } from './components/SlotMachine'
 import { createStyles } from './utils'
 
 const styles = createStyles({

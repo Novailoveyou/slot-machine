@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { createSlotMachine } from './createSlotMachine'
 import { v4 as uuidv4 } from 'uuid'
-import { createStyles } from './utils'
-import { SLOTS as slots } from './constants'
+import { createStyles } from '../../utils'
+import { SLOTS as slots } from '../../constants'
 
 const styles = createStyles({
   flex: {
@@ -18,6 +18,9 @@ const styles = createStyles({
   rows: {
     flexDirection: 'column',
   },
+  isSpinning: {
+    cursor: 'wait',
+  },
 } as const)
 
 const { useSlotMachine } = createSlotMachine({
@@ -25,11 +28,14 @@ const { useSlotMachine } = createSlotMachine({
   rows: 3,
 })
 
-const SlotMachine = () => {
-  const { field, hit } = useSlotMachine()
+export const SlotMachine = () => {
+  const { field, isSpinning, hit } = useSlotMachine()
 
   return (
-    <a css={[styles.root, styles.flex]} tabIndex={0} onClick={hit}>
+    <a
+      css={[styles.root, styles.flex, isSpinning && styles.isSpinning]}
+      tabIndex={0}
+      onClick={hit}>
       <ul css={styles.flex}>
         {field.map(column => (
           <li key={uuidv4()} css={[styles.column, styles.flex]}>
@@ -46,4 +52,3 @@ const SlotMachine = () => {
     </a>
   )
 }
-export default SlotMachine
