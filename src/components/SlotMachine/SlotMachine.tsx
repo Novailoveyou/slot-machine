@@ -29,13 +29,13 @@ const { useSlotMachine } = createSlotMachine({
 })
 
 export const SlotMachine = () => {
-  const { field, isSpinning, hit } = useSlotMachine()
+  const { field, isSpinning, speen } = useSlotMachine()
 
   return (
     <a
       css={[styles.root, styles.flex, isSpinning && styles.isSpinning]}
       tabIndex={0}
-      onClick={hit}>
+      onClick={speen}>
       <ul css={styles.flex}>
         {field.map(column => (
           <li key={uuidv4()} css={[styles.column, styles.flex]}>

@@ -10,8 +10,8 @@ export const createSlotMachine = <
   },
 >({
   rows: _rows,
-  speenDurationMs: _speenDurationMs,
-  speenSpeedMs: _speedSpeedMs,
+  speenDurationMs,
+  speenSpeedMs,
   slots,
 }: T) => {
   const rows = _rows || slots.length
@@ -27,15 +27,15 @@ export const createSlotMachine = <
     return min + (byteArray[0] % range)
   }
 
-  const getSpeenDurationMs = () =>
-    _speenDurationMs || randomNumber(35, 55) * 100
+  const _getSpeenDurationMs = () =>
+    speenDurationMs || randomNumber(35, 55) * 100
 
-  const getSpeenSpeedMs = () => _speedSpeedMs || randomNumber(12, 17)
+  const _getSpeenSpeedMs = () => speenSpeedMs || randomNumber(12, 17)
 
   const useSlotMachine = () => {
     const [isSpinning, setIsSpinning] = useState(false)
     const stop = () => setIsSpinning(false)
-    const hit = () => setIsSpinning(true)
+    const start = () => setIsSpinning(true)
 
     const [field, setField] = useState(
       Array.from({ length: slots.length }, () =>
@@ -43,7 +43,7 @@ export const createSlotMachine = <
       ),
     )
 
-    const speen = () => {
+    const _speen = () => {
       const speenIdx = randomNumber(0, slots.length - 1)
 
       setField(
@@ -56,9 +56,9 @@ export const createSlotMachine = <
     useEffect(() => {
       if (!isSpinning) return
 
-      const interval = setInterval(speen, getSpeenSpeedMs())
+      const interval = setInterval(_speen, _getSpeenSpeedMs())
 
-      const timeout = setTimeout(stop, getSpeenDurationMs())
+      const timeout = setTimeout(stop, _getSpeenDurationMs())
 
       return () => {
         clearInterval(interval)
@@ -69,7 +69,7 @@ export const createSlotMachine = <
     return {
       isSpinning,
       field: field.map(column => column.filter((_, idx) => idx < rows)),
-      hit,
+      speen: start,
     }
   }
 
